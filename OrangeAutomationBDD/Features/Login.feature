@@ -1,7 +1,7 @@
 ﻿Feature: Login
 In order to manage employee records
 As a admin
-I would like get into the employee dashboard
+I would like access the employee dashboard
 
 
 Scenario: Verify Valid Login
