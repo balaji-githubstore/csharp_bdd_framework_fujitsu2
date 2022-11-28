@@ -13,12 +13,6 @@ namespace OrangeAutomationBDD.Support
     {
         public static IWebDriver driver;
 
-        [Given(@"I have browser with OrangeHRM application")]
-        public void GivenIHaveBrowserWithOrangeHRMApplication()
-        {
-            Console.WriteLine("hello");
-        }
-
         [AfterScenario]
         public void AfterScenario()
         {
