@@ -10,6 +10,8 @@ namespace OrangeAutomationBDD.StepDefinitions
     [Binding]
     public class LoginStepDefinitions
     {
+        [Scope(Feature = "Login")]
+        //[Scope(Tag ="login")]
         [Given(@"I have browser with OrangeHRM application")]
         public void GivenIHaveBrowserWithOrangeHRMApplication()
         {

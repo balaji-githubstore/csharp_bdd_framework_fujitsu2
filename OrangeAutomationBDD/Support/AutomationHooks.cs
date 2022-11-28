@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,12 @@ namespace OrangeAutomationBDD.Support
     public class AutomationHooks
     {
         public static IWebDriver driver;
+
+        [Given(@"I have browser with OrangeHRM application")]
+        public void GivenIHaveBrowserWithOrangeHRMApplication()
+        {
+            Console.WriteLine("hello");
+        }
 
         [AfterScenario]
         public void AfterScenario()
