@@ -54,6 +54,7 @@ namespace OrangeAutomationBDD.StepDefinitions
         [Then(@"I should be able to see the added employee record")]
         public void ThenIShouldBeAbleToSeeTheAddedEmployeeRecord()
         {
+            Thread.Sleep(5000);
             string fName = _empTable.Rows[0]["firstname"];
             string lName = _empTable.Rows[0]["lastname"];
             string expectedEmployeeNameHeader = fName + " " + lName;

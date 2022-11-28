@@ -16,7 +16,7 @@ namespace OrangeAutomationBDD.Support
         [AfterScenario]
         public void AfterScenario()
         {
-           // driver.Quit();
+            driver.Quit();
         }
     }
 }

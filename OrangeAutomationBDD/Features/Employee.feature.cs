@@ -76,10 +76,17 @@ namespace OrangeAutomationBDD.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Verify Add Employee Record")]
-        public void VerifyAddEmployeeRecord()
+        [NUnit.Framework.TestCaseAttribute("admin", "admin123", "Saul", "S", "goodman", null)]
+        [NUnit.Framework.TestCaseAttribute("admin", "admin123", "Peter", "k", "henry", null)]
+        public void VerifyAddEmployeeRecord(string username, string password, string first_Name, string middle_Name, string last_Name, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("username", username);
+            argumentsOfScenario.Add("password", password);
+            argumentsOfScenario.Add("first_name", first_Name);
+            argumentsOfScenario.Add("middle_name", middle_Name);
+            argumentsOfScenario.Add("last_name", last_Name);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify Add Employee Record", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 6
 this.ScenarioInitialize(scenarioInfo);
@@ -95,10 +102,10 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("I have browser with OrangeHRM application", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 8
- testRunner.When("I enter username as \'Admin\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When(string.Format("I enter username as \'{0}\'", username), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 9
- testRunner.And("I enter password as \'admin123\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("I enter password as \'{0}\'", password), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
  testRunner.And("I click on login", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -114,9 +121,9 @@ this.ScenarioInitialize(scenarioInfo);
                             "middlename",
                             "lastname"});
                 table1.AddRow(new string[] {
-                            "John",
-                            "W",
-                            "Wick"});
+                            string.Format("{0}", first_Name),
+                            string.Format("{0}", middle_Name),
+                            string.Format("{0}", last_Name)});
 #line 13
  testRunner.And("I fill new employee detail", ((string)(null)), table1, "And ");
 #line hidden
