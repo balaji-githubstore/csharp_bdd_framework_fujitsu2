@@ -10,17 +10,23 @@ namespace OrangeAutomationBDD.StepDefinitions
     public class EmployeeStepDefinitions
     {
         private static Table _empTable;
+        private readonly AutomationHooks _hooks;
+
+        public EmployeeStepDefinitions(AutomationHooks hooks)
+        {
+            this._hooks = hooks;
+        }
 
         [When(@"I click on PIM menu")]
         public void WhenIClickOnPIMMenu()
         {
-            AutomationHooks.driver.FindElement(By.XPath("//span[text()='PIM']")).Click();
+            _hooks.driver.FindElement(By.XPath("//span[text()='PIM']")).Click();
         }
 
         [When(@"I click on Add Employee")]
         public void WhenIClickOnAddEmployee()
         {
-            AutomationHooks.driver.FindElement(By.LinkText("Add Employee")).Click();
+            _hooks.driver.FindElement(By.LinkText("Add Employee")).Click();
         }
 
         [When(@"I fill new employee detail")]
@@ -33,21 +39,21 @@ namespace OrangeAutomationBDD.StepDefinitions
             string mName = _empTable.Rows[0]["middlename"];
             string lName = _empTable.Rows[0]["lastname"];
 
-            AutomationHooks.driver.FindElement(By.XPath("//input[@placeholder='First Name']")).SendKeys(fName);
-            AutomationHooks.driver.FindElement(By.XPath("//input[@placeholder='Middle Name']")).SendKeys(mName);
-            AutomationHooks.driver.FindElement(By.XPath("//input[@placeholder='Last Name']")).SendKeys(lName);
+            _hooks.driver.FindElement(By.XPath("//input[@placeholder='First Name']")).SendKeys(fName);
+            _hooks.driver.FindElement(By.XPath("//input[@placeholder='Middle Name']")).SendKeys(mName);
+            _hooks.driver.FindElement(By.XPath("//input[@placeholder='Last Name']")).SendKeys(lName);
         }
 
         [When(@"I click on save employee")]
         public void WhenIClickOnSaveEmployee()
         {
-            AutomationHooks.driver.FindElement(By.XPath("//button[normalize-space()='Save']")).Click();
+            _hooks.driver.FindElement(By.XPath("//button[normalize-space()='Save']")).Click();
         }
 
         [Then(@"I should be taken to '(.*)' section")]
         public void ThenIShouldBeTakenToSection(string expectedHeader)
         {
-            string actualHeader = AutomationHooks.driver.FindElement(By.XPath("//h6[text()='Personal Details']")).Text;
+            string actualHeader = _hooks.driver.FindElement(By.XPath("//h6[text()='Personal Details']")).Text;
             Assert.That(actualHeader, Is.EqualTo(expectedHeader));
         }
 
@@ -59,9 +65,9 @@ namespace OrangeAutomationBDD.StepDefinitions
             string lName = _empTable.Rows[0]["lastname"];
             string expectedEmployeeNameHeader = fName + " " + lName;
 
-            string actualEmployeeNameHeader = AutomationHooks.driver.FindElement(By.XPath("//div[@class='orangehrm-edit-employee-name']//h6")).Text;
+            string actualEmployeeNameHeader = _hooks.driver.FindElement(By.XPath("//div[@class='orangehrm-edit-employee-name']//h6")).Text;
 
-            string actualFirstNameInTextBox = AutomationHooks.driver.FindElement(By.Name("firstName")).GetAttribute("value");
+            string actualFirstNameInTextBox = _hooks.driver.FindElement(By.Name("firstName")).GetAttribute("value");
 
             Assert.Multiple(() =>
             {
