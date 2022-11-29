@@ -67,7 +67,7 @@ namespace OrangeAutomationBDD.StepDefinitions
         {
             Thread.Sleep(5000);
 
-           Table empTable= _scenarioContext.Get<Table>("empTable");
+            Table empTable = _scenarioContext.Get<Table>("empTable");
 
             string fName = empTable.Rows[0]["firstname"];
             string lName = empTable.Rows[0]["lastname"];
