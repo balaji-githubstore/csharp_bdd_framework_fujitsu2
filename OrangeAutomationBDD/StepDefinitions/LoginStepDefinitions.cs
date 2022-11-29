@@ -1,3 +1,4 @@
+using Fujitsu.OrangeAutomation.Pages;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -13,10 +14,20 @@ namespace OrangeAutomationBDD.StepDefinitions
         private readonly AutomationHooks _hooks;
         private readonly ScenarioContext _scenarioContext;
 
-        public LoginStepDefinitions(AutomationHooks hooks,ScenarioContext scenarioContext)
+        private LoginPage loginPage;
+        private MainPage mainPage;
+
+        public LoginStepDefinitions(AutomationHooks hooks, ScenarioContext scenarioContext)
         {
             _hooks = hooks;
             _scenarioContext = scenarioContext;
+        }
+
+
+        public void InitPageObjects()
+        {
+            loginPage = new LoginPage(_hooks.driver);
+            mainPage = new MainPage(_hooks.driver);
         }
 
         //[Scope(Feature = "Login")]
@@ -29,6 +40,8 @@ namespace OrangeAutomationBDD.StepDefinitions
             _hooks.driver.Manage().Window.Maximize();
             _hooks.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             _hooks.driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/");
+
+            InitPageObjects();
         }
         //[Scope(Feature = "Login")]
         [When(@"I enter username as '(.*)'")]
@@ -36,33 +49,32 @@ namespace OrangeAutomationBDD.StepDefinitions
         {
             //load the record in keyvalue pair which will be available only for current scenario
             _scenarioContext.Add("currentUser", username);
-            //Console.WriteLine(username);
-            _hooks.driver.FindElement(By.Name("username")).SendKeys(username);
+            loginPage.EnterUsername(username);
         }
 
         [When(@"I enter password as '(.*)'")]
         public void WhenIEnterPasswordAs(string password)
         {
-            _hooks.driver.FindElement(By.Name("password")).SendKeys(password);
+            loginPage.EnterPassword(password);
         }
 
         [When(@"I click on login")]
         public void WhenIClickOnLogin()
         {
-            _hooks.driver.FindElement(By.XPath("//button[normalize-space()='Login']")).Click();
+            loginPage.ClickOnLogin();
         }
 
         [Then(@"I should get access to the dashboard with url as '(.*)'")]
         public void ThenIShouldGetAccessToTheDashboardWithUrlAs(string expectedUrl)
         {
             //wait for page load
-            Assert.That(_hooks.driver.Url, Is.EqualTo(expectedUrl));
+            Assert.That(mainPage.GetMainPageURL(), Is.EqualTo(expectedUrl));
         }
 
         [Then(@"I should not get access to portal with error messgae as '([^']*)'")]
         public void ThenIShouldNotGetAccessToPortalWithErrorMessgaeAs(string expectedError)
         {
-            string actualError = _hooks.driver.FindElement(By.XPath("//p[contains(@class,'oxd-alert-content')]")).Text;
+            string actualError = loginPage.GetInvalidLoginErrorMessage();
             Assert.That(actualError, Is.EqualTo(expectedError));
         }
 

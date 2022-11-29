@@ -1,3 +1,4 @@
+using Fujitsu.OrangeAutomation.Pages;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OrangeAutomationBDD.Support;
@@ -13,10 +14,24 @@ namespace OrangeAutomationBDD.StepDefinitions
         private readonly AutomationHooks _hooks;
         private readonly ScenarioContext _scenarioContext;
 
+        private MainPage mainPage;
+        private PIMPage pimPage;
+        private AddEmployeePage addEmployeePage;
+        private PersonalDetailPage personalDetailPage;
+
         public EmployeeStepDefinitions(AutomationHooks hooks, ScenarioContext scenarioContext)
         {
             this._hooks = hooks;
             _scenarioContext = scenarioContext;
+            InitPageObjects();
+        }
+
+        public void InitPageObjects()
+        {
+            mainPage = new MainPage(_hooks.driver);
+            pimPage = new PIMPage(_hooks.driver);
+            addEmployeePage = new AddEmployeePage(_hooks.driver);
+            personalDetailPage = new PersonalDetailPage(_hooks.driver);
         }
 
         [When(@"I click on PIM menu")]
@@ -24,13 +39,13 @@ namespace OrangeAutomationBDD.StepDefinitions
         {
             string user = _scenarioContext.Get<string>("currentUser");
             Console.WriteLine(user);
-            _hooks.driver.FindElement(By.XPath("//span[text()='PIM']")).Click();
+            mainPage.ClickOnPIMMenu();
         }
 
         [When(@"I click on Add Employee")]
         public void WhenIClickOnAddEmployee()
         {
-            _hooks.driver.FindElement(By.LinkText("Add Employee")).Click();
+            pimPage.ClickOnAddEmployee();
         }
 
         [When(@"I fill new employee detail")]
@@ -44,21 +59,25 @@ namespace OrangeAutomationBDD.StepDefinitions
             string mName = table.Rows[0]["middlename"];
             string lName = table.Rows[0]["lastname"];
 
-            _hooks.driver.FindElement(By.XPath("//input[@placeholder='First Name']")).SendKeys(fName);
-            _hooks.driver.FindElement(By.XPath("//input[@placeholder='Middle Name']")).SendKeys(mName);
+            addEmployeePage.EnterFirstName(fName);
+            addEmployeePage.EnterMiddleName(mName);
+            //_hooks.driver.FindElement(By.XPath("//input[@placeholder='Middle Name']")).SendKeys(mName);
+            //add in AddEmployeePage
             _hooks.driver.FindElement(By.XPath("//input[@placeholder='Last Name']")).SendKeys(lName);
         }
 
         [When(@"I click on save employee")]
         public void WhenIClickOnSaveEmployee()
         {
+            //add in AddEmployeePage
             _hooks.driver.FindElement(By.XPath("//button[normalize-space()='Save']")).Click();
         }
 
         [Then(@"I should be taken to '(.*)' section")]
         public void ThenIShouldBeTakenToSection(string expectedHeader)
         {
-            string actualHeader = _hooks.driver.FindElement(By.XPath("//h6[text()='Personal Details']")).Text;
+            //add in PersonalDetailPage
+            string actualHeader = personalDetailPage.GetPersonlDetailHeader();
             Assert.That(actualHeader, Is.EqualTo(expectedHeader));
         }
 
@@ -73,8 +92,10 @@ namespace OrangeAutomationBDD.StepDefinitions
             string lName = empTable.Rows[0]["lastname"];
             string expectedEmployeeNameHeader = fName + " " + lName;
 
+            //add in PersonalDetailPage
             string actualEmployeeNameHeader = _hooks.driver.FindElement(By.XPath("//div[@class='orangehrm-edit-employee-name']//h6")).Text;
 
+            //add in PersonalDetailPage
             string actualFirstNameInTextBox = _hooks.driver.FindElement(By.Name("firstName")).GetAttribute("value");
 
             Assert.Multiple(() =>
