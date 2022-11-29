@@ -30,7 +30,7 @@ namespace OrangeAutomationBDD.Support
                 driver = new ChromeDriver();
             }
             driver.Manage().Window.Maximize();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+            //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
             driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/web/index.php/");
         }
 

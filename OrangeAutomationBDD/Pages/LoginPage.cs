@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Fujitsu.WebDriverKeywords.Base;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Fujitsu.OrangeAutomation.Pages
 {
-    public class LoginPage
+    public class LoginPage : AutomationKeywords
     {
         private By _usernameLocator = By.Name("username");
         private By _passwordLocator = By.CssSelector("[name='password']");
@@ -17,29 +18,29 @@ namespace Fujitsu.OrangeAutomation.Pages
 
         private IWebDriver _driver;
 
-        public LoginPage(IWebDriver driver)
+        public LoginPage(IWebDriver driver):base(driver)
         {
             this._driver = driver;
         }
 
         public void EnterUsername(string username)
         {
-            _driver.FindElement(_usernameLocator).SendKeys(username);
+            SendTextByLocator(_usernameLocator, username);
         }
 
         public void EnterPassword(string password)
         {
-            _driver.FindElement(_passwordLocator).SendKeys(password);
+            SendTextByLocator(_passwordLocator, password); ;
         }
 
         public void ClickOnLogin()
         {
-            _driver.FindElement(_loginLocator).Click();
+            ClickByLocator(_loginLocator);
         }
 
         public string GetInvalidLoginErrorMessage()
         {
-            return _driver.FindElement(_errorLocator).Text;
+            return GetTextByLocator(_errorLocator);
         }
 
         public string GetUsernamePlaceholder()
