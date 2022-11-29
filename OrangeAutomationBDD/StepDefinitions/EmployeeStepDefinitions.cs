@@ -9,7 +9,7 @@ namespace OrangeAutomationBDD.StepDefinitions
     [Binding]
     public class EmployeeStepDefinitions
     {
-        private static Table _empTable;
+        //private static Table _empTable;
         private readonly AutomationHooks _hooks;
         private readonly ScenarioContext _scenarioContext;
 
@@ -37,11 +37,12 @@ namespace OrangeAutomationBDD.StepDefinitions
         public void WhenIFillNewEmployeeDetail(Table table)
         {
             //load the employee table in static variable
-            _empTable = table;
+            //_empTable = table;
+            _scenarioContext.Add("empTable", table);
 
-            string fName = _empTable.Rows[0]["firstname"];
-            string mName = _empTable.Rows[0]["middlename"];
-            string lName = _empTable.Rows[0]["lastname"];
+            string fName = table.Rows[0]["firstname"];
+            string mName = table.Rows[0]["middlename"];
+            string lName = table.Rows[0]["lastname"];
 
             _hooks.driver.FindElement(By.XPath("//input[@placeholder='First Name']")).SendKeys(fName);
             _hooks.driver.FindElement(By.XPath("//input[@placeholder='Middle Name']")).SendKeys(mName);
@@ -65,8 +66,11 @@ namespace OrangeAutomationBDD.StepDefinitions
         public void ThenIShouldBeAbleToSeeTheAddedEmployeeRecord()
         {
             Thread.Sleep(5000);
-            string fName = _empTable.Rows[0]["firstname"];
-            string lName = _empTable.Rows[0]["lastname"];
+
+           Table empTable= _scenarioContext.Get<Table>("empTable");
+
+            string fName = empTable.Rows[0]["firstname"];
+            string lName = empTable.Rows[0]["lastname"];
             string expectedEmployeeNameHeader = fName + " " + lName;
 
             string actualEmployeeNameHeader = _hooks.driver.FindElement(By.XPath("//div[@class='orangehrm-edit-employee-name']//h6")).Text;
