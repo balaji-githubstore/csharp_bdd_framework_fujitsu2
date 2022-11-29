@@ -4,7 +4,7 @@ using OpenQA.Selenium.Chrome;
 using OrangeAutomationBDD.Support;
 using System;
 using TechTalk.SpecFlow;
-
+//no page objects
 namespace OrangeAutomationBDD.StepDefinitions
 {
     [Binding]
