@@ -75,8 +75,8 @@ namespace OrangeAutomationBDD.StepDefinitions
 
         [Then(@"I should be taken to '(.*)' section")]
         public void ThenIShouldBeTakenToSection(string expectedHeader)
-        {
-            //add in PersonalDetailPage
+        {       
+            //added in PersonalDetailPage
             string actualHeader = personalDetailPage.GetPersonlDetailHeader();
             Assert.That(actualHeader, Is.EqualTo(expectedHeader));
         }

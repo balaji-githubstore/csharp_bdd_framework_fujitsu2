@@ -36,13 +36,17 @@ namespace OrangeAutomationBDD.StepDefinitions
         [Given(@"I have browser with OrangeHRM application")]
         public void GivenIHaveBrowserWithOrangeHRMApplication()
         {
-            _hooks.driver = new ChromeDriver();
-            _hooks.driver.Manage().Window.Maximize();
-            _hooks.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-            _hooks.driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/");
-
+            _hooks.LaunchBrowser();
             InitPageObjects();
         }
+
+        [Given(@"I have '(.*)' browser with OrangeHRM application")]
+        public void GivenIHaveBrowserWithOrangeHRMApplication(string browser)
+        {
+            _hooks.LaunchBrowser(browser);
+            InitPageObjects();
+        }
+
         //[Scope(Feature = "Login")]
         [When(@"I enter username as '(.*)'")]
         public void WhenIEnterUsernameAs(string username)

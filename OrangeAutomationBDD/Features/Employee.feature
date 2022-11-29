@@ -6,7 +6,7 @@ I would like add, delete, update employee records
 
 @addemployee @smoke
 Scenario Outline: Verify Add Employee Record
-	Given I have browser with OrangeHRM application
+	Given I have 'edge' browser with OrangeHRM application
 	When I enter username as '<username>'
 	And I enter password as '<password>'
 	And I click on login

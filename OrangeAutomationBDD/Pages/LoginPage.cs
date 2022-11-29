@@ -21,6 +21,7 @@ namespace Fujitsu.OrangeAutomation.Pages
         {
             this._driver = driver;
         }
+
         public void EnterUsername(string username)
         {
             _driver.FindElement(_usernameLocator).SendKeys(username);
