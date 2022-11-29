@@ -12,7 +12,7 @@ namespace OrangeAutomationBDD.Support
     public class AutomationHooks
     {
         public IWebDriver driver;
-
+  
         [AfterScenario]
         public void AfterScenario()
         {

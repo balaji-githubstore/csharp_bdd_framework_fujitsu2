@@ -11,9 +11,12 @@ namespace OrangeAutomationBDD.StepDefinitions
     public class LoginStepDefinitions
     {
         private readonly AutomationHooks _hooks;
-        public LoginStepDefinitions(AutomationHooks hooks) 
+        private readonly ScenarioContext _scenarioContext;
+
+        public LoginStepDefinitions(AutomationHooks hooks,ScenarioContext scenarioContext)
         {
             _hooks = hooks;
+            _scenarioContext = scenarioContext;
         }
 
         //[Scope(Feature = "Login")]
@@ -24,13 +27,15 @@ namespace OrangeAutomationBDD.StepDefinitions
         {
             _hooks.driver = new ChromeDriver();
             _hooks.driver.Manage().Window.Maximize();
-            _hooks.driver.Manage().Timeouts().ImplicitWait=TimeSpan.FromSeconds(5);
+            _hooks.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             _hooks.driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/");
         }
         //[Scope(Feature = "Login")]
         [When(@"I enter username as '(.*)'")]
         public void WhenIEnterUsernameAs(string username)
         {
+            //load the record in keyvalue pair which will be available only for current scenario
+            _scenarioContext.Add("currentUser", username);
             //Console.WriteLine(username);
             _hooks.driver.FindElement(By.Name("username")).SendKeys(username);
         }
@@ -51,7 +56,7 @@ namespace OrangeAutomationBDD.StepDefinitions
         public void ThenIShouldGetAccessToTheDashboardWithUrlAs(string expectedUrl)
         {
             //wait for page load
-            Assert.That(_hooks.driver.Url,Is.EqualTo(expectedUrl));
+            Assert.That(_hooks.driver.Url, Is.EqualTo(expectedUrl));
         }
 
         [Then(@"I should not get access to portal with error messgae as '([^']*)'")]

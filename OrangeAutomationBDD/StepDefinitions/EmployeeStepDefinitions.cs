@@ -11,15 +11,19 @@ namespace OrangeAutomationBDD.StepDefinitions
     {
         private static Table _empTable;
         private readonly AutomationHooks _hooks;
+        private readonly ScenarioContext _scenarioContext;
 
-        public EmployeeStepDefinitions(AutomationHooks hooks)
+        public EmployeeStepDefinitions(AutomationHooks hooks, ScenarioContext scenarioContext)
         {
             this._hooks = hooks;
+            _scenarioContext = scenarioContext;
         }
 
         [When(@"I click on PIM menu")]
         public void WhenIClickOnPIMMenu()
         {
+            string user = _scenarioContext.Get<string>("currentUser");
+            Console.WriteLine(user);
             _hooks.driver.FindElement(By.XPath("//span[text()='PIM']")).Click();
         }
 
